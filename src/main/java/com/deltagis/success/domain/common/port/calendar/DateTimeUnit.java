@@ -1,4 +1,4 @@
-package com.deltagis.success.domain.common.port;
+package com.deltagis.success.domain.common.port.calendar;
 
 import com.google.common.base.MoreObjects;
 import jakarta.validation.constraints.NotNull;

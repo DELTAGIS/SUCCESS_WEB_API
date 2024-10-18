@@ -1,4 +1,4 @@
-package com.deltagis.success.application.user;
+package com.deltagis.success.application.services.user;
 
 import com.deltagis.success.domain.entities.user.User;
 import org.springframework.security.core.GrantedAuthority;

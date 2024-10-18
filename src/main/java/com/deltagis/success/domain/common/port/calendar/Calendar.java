@@ -1,4 +1,4 @@
-package com.deltagis.success.domain.common.port;
+package com.deltagis.success.domain.common.port.calendar;
 
 
 import java.util.Date;
@@ -113,7 +113,7 @@ public interface Calendar  {
      *        2, two months
      * @return Interval for interval type based on dateUnit
      */
-    DateInterval toInterval( DateTimeUnit dateTimeUnit, DateIntervalType type, int offset, int length );
+    DateInterval toInterval(DateTimeUnit dateTimeUnit, DateIntervalType type, int offset, int length );
 
     /**
      * Gets interval of type based on DateUnit using default options, 0 for

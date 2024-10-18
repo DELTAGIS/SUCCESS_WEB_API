@@ -1,4 +1,4 @@
-package com.deltagis.success.adapters.web.http;
+package com.deltagis.success.adapters.web.http.user;
 
 import com.deltagis.success.adapters.web.api.ApiEndpoints;
 import com.deltagis.success.adapters.web.api.ApiResponseService;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(ApiEndpoints.USERS)
 @Tag(name = "User API", description = "Operations related to User management")
 public class UserController {
-
     @Autowired
     private IUserService userService;
 

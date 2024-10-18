@@ -1,4 +1,4 @@
-package com.deltagis.success.domain.service.user.auth;
+package com.deltagis.success.domain.ports.user.auth;
 
 import com.deltagis.success.domain.entities.user.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,13 +7,21 @@ import java.util.Optional;
 
 public interface IUserAuthService {
     /**
+     * Finds a user by their username.
+     *
+     * @param username the username of the user to find
+     * @return an Optional containing the user details if found, or an empty Optional if no such user exists
+     */
+    Optional<UserDetails> findByUsername(String username);
+
+    /**
      * Authenticates a user by verifying that the provided username and password match an existing user.
      *
      * @param username the username of the user attempting to authenticate
      * @param password the password associated with the given username
      * @return the authenticated User object if the credentials are valid, or null if they are not
      */
-    User authenticate(String username, String password);
+    String authenticate(String username, String password);
 
     /**
      * Saves a user to the database, encrypting their password first.
@@ -23,15 +31,11 @@ public interface IUserAuthService {
      */
     User registerUser(User user);
 
-
-
     /**
-     * Finds a user by their email.
+     * Registers the first user in the system, typically an admin.
      *
-     * @param email the email of the user to find
-     * @return an Optional containing the user if found, or an empty Optional if no such user exists
+     * @param admin the user to be registered as the first user
+     * @return the registered user
      */
-    Optional<User> findByEmail(String email);
-
-    // TODO  Optional<User> findById(String openId);
+    User registerFirstUser(User admin, String secretKey);
 }

@@ -1,7 +1,7 @@
 package com.deltagis.success.infrastructure.config;
 
 import com.deltagis.success.adapters.web.api.ApiEndpoints;
-import com.deltagis.success.domain.service.user.UserService;
+import com.deltagis.success.domain.ports.user.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class SecurityConfig {
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    public SecurityConfig(UserService userService) {
+    public SecurityConfig(IUserService userService) {
         this.userService = userService;
     }
 

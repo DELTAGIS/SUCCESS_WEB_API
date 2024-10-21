@@ -1,4 +1,4 @@
-package com.deltagis.success.domain.service.logs;
+package com.deltagis.success.domain.ports.logs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,6 +1,6 @@
 package com.deltagis.success.adapters.web.api;
 
-import com.deltagis.success.domain.service.logs.RequestLoggingService;
+import com.deltagis.success.domain.ports.logs.RequestLoggingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;

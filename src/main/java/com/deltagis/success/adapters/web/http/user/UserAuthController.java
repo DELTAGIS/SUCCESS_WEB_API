@@ -10,11 +10,13 @@ import com.deltagis.success.application.services.user.auth.AuthenticationRespons
 import com.deltagis.success.domain.entities.user.User;
 import com.deltagis.success.domain.ports.user.IUserService;
 import com.deltagis.success.domain.ports.user.auth.IUserAuthService;
+import com.deltagis.success.infrastructure.config.security.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +28,15 @@ public class UserAuthController {
 
     @Autowired
     private IUserAuthService userAuthService;
+
+    private final AuthenticationManager authenticationManager;
+
+    private JwtUtil jwtUtil;
+    public UserAuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+
+    }
 
     @Autowired
     private ApiResponseService response;

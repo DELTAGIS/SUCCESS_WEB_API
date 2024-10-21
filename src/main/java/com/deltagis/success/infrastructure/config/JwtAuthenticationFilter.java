@@ -18,7 +18,6 @@ import java.util.Collections;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    // Clé secrète utilisée pour signer le JWT (assurez-vous de la garder secrète et de la stocker de manière sécurisée)
     private final String secretKey = "secret";
 
     @Override
@@ -29,10 +28,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String jwt = token.substring(7);
 
             try {
-                // Extraction de la clé secrète
                 Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
-                // Récupération de l'identifiant de l'utilisateur à partir du JWT
                 String username = Jwts.parserBuilder()
                         .setSigningKey(key)
                         .build()
@@ -41,27 +38,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .getSubject();
 
                 if (username != null) {
-                    // Créez un objet UserDetails pour représenter l'utilisateur
                     UserDetails userDetails = User.builder()
                             .username(username)
-                            .password("")  // Mot de passe vide, car nous ne l'avons pas ici
+                            .password("")
                             .authorities(Collections.emptyList())
                             .build();
 
-                    // Créez un objet Authentication à partir des UserDetails
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-                    // Définit l'objet Authentication dans le contexte de sécurité de Spring
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (Exception e) {
-                // Log de l'erreur si la validation du token échoue (token invalide, expiré, etc.)
                 e.printStackTrace();
             }
         }
 
-        // Continue avec le filtre suivant dans la chaîne
         filterChain.doFilter(request, response);
     }
 }

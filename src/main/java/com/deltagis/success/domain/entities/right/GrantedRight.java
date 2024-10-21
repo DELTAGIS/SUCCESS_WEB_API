@@ -1,9 +1,7 @@
 package com.deltagis.success.domain.entities.right;
 
-import com.deltagis.success.domain.entities.project.Project;
 import com.deltagis.success.domain.entities.user.User;
 import com.deltagis.success.domain.entities.user.UserRole;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,15 +24,24 @@ public class GrantedRight {
     @Column
     private UUID uid;
 
-    @ManyToOne
+    private long userId;
+
+    // @ManyToOne
+    @Transient
     private User user;
 
-    @ManyToOne
+    private long roleId;
+
+    // @ManyToOne
+    @Transient
     private UserRole role;
 
-    @JsonProperty
-    public Project getProject() {
-        return role.getProject();
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "project_id")
+//    private Project project;
+//
+//    public Project getProject() {
+//        return project;
+//    }
 
 }

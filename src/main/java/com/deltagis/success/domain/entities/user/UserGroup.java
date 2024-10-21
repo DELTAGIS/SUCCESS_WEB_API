@@ -26,20 +26,23 @@ public class UserGroup {
     /**
      * Set of related users
      */
-    @ManyToMany(mappedBy = "groups")
+    // @ManyToMany(mappedBy = "groups")
+    @Transient
     private Set<User> members = new HashSet<>();
 
     /**
      * User groups (if any) that members of this user group can manage the
      * members within.
      */
-    @ManyToMany
+    // @ManyToMany
+    @Transient
     private Set<UserGroup> managedGroups = new HashSet<>();
 
     /**
      * User groups (if any) whose members can manage the members of this user
      * group.
      */
-    @ManyToMany(mappedBy = "managedGroups")
+    // @ManyToMany(mappedBy = "managedGroups")
+    @Transient
     private Set<UserGroup> managedByGroups = new HashSet<>();
 }

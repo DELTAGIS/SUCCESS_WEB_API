@@ -34,10 +34,14 @@ public class UserRole {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> authorities = new HashSet<>();
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    // @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @Transient
     private Set<GrantedRight> grantedRights;
 
-    @ManyToOne
+    private Long projectId;
+
+    // @ManyToOne
+    @Transient
     private Project project;
 
     /**
@@ -83,13 +87,15 @@ public class UserRole {
         right.setRole(this);
         right.setUser(user);
 
-        List<GrantedRight> rights = this.grantedRights
-                .stream()
-                .filter(
-                        r -> r.getUser().getUuid().equals(user.getUuid()) &&
-                                project.getUid().equals(r.getProject().getUid())
-                )
-                .toList();
+        List<GrantedRight> rights = new ArrayList<GrantedRight>();
+
+//        List<GrantedRight> rights = this.grantedRights
+//                .stream()
+//                .filter(
+//                        r -> r.getUser().getUuid().equals(user.getUuid()) &&
+//                                project.getUid().equals(r.getProject().getUid())
+//                )
+//                .toList();
 
         if (!rights.isEmpty()) {
             return;

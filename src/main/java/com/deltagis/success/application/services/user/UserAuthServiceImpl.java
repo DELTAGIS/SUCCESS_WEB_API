@@ -1,6 +1,5 @@
 package com.deltagis.success.application.services.user;
 
-import org.springframework.transaction.annotation.Transactional;
 import com.deltagis.success.application.services.user.auth.JwtServiceImpl;
 import com.deltagis.success.domain.entities.user.User;
 import com.deltagis.success.domain.ports.user.auth.IUserAuthService;
@@ -12,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,18 +32,19 @@ public class UserAuthServiceImpl implements IUserAuthService {
     private final String SECRET_PASSWORD = "OuJj0qjFQ5596oBYKBGS8GC0aIuAip";
 
     @Autowired
-    public UserAuthServiceImpl(UserRepository userRepository,
-                               PasswordEncoder passwordEncoder,
-                               AuthenticationManager authenticationManager,
-                               UserServiceImpl userService,
-                               JwtServiceImpl jwtService) {
+    public UserAuthServiceImpl(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            UserServiceImpl userService,
+            JwtServiceImpl jwtService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = null;
+        this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.jwtService = jwtService;
     }
-
 
     public Optional<UserDetails> findByUsername(String username) {
         return userRepository.findByUsername(username)
@@ -92,16 +93,29 @@ public class UserAuthServiceImpl implements IUserAuthService {
      * @return the saved user
      */
     public User registerUser(User user) {
+        if (user.getUsername() == null) {
+            user.setUsername(user.getEmail());
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
+    /**
+     * Registers the first user in the system if no users exist in the database and the provided secret key matches the predefined secret password.
+     *
+     * @param admin     the user to be registered as the first user
+     * @param secretKey the secret key required to register the first user
+     * @return the registered user if successful, or null if the conditions are not met
+     */
     @Override
-    public User registerFirstUser(User admin,String secretKey) {
+    public User registerFirstUser(User admin, String secretKey) {
         // * 1 check if not user exists in the database
         List<User> users = userRepository.findAll();
         if (users.isEmpty() && secretKey.equals(SECRET_PASSWORD)) {
             // * 2 check secret key
+            if (admin.getUsername() == null) {
+                admin.setUsername(admin.getEmail());
+            }
             admin.setPassword(passwordEncoder.encode(admin.getPassword()));
             return userRepository.save(admin);
         }

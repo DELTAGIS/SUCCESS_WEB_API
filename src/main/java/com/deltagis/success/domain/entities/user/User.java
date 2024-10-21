@@ -1,9 +1,8 @@
 package com.deltagis.success.domain.entities.user;
 
 import com.deltagis.success.domain.entities.right.GrantedRight;
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.*;
@@ -21,7 +20,7 @@ public class User {
     private Long id;
 
     @Column(unique = true)
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 
     @Column(unique = true)
     private String username;
@@ -61,7 +60,6 @@ public class User {
      * Date when password was changed.
      */
     private Date passwordLastUpdated;
-
 
     /**
      * Date of the user's last login.
@@ -113,6 +111,8 @@ public class User {
 
     private String firstName;
 
+    private String lastName;
+
     private String email;
 
     private String phoneNumber;
@@ -139,7 +139,8 @@ public class User {
 
     private Date lastCheckedInterpretations;
 
-    @ManyToMany
+    // @ManyToMany
+    @Transient
     private Set<UserGroup> groups = new HashSet<>();
 
     private String avatar;
@@ -169,6 +170,8 @@ public class User {
     /**
      * Set of user roles.
      */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @Transient
     private Set<GrantedRight> grantedRights = new HashSet<>();
+
 }

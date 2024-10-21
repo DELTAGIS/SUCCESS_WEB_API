@@ -2,13 +2,7 @@ package com.deltagis.success.domain.entities.right;
 
 import com.deltagis.success.domain.entities.user.User;
 import com.deltagis.success.domain.entities.user.UserRole;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,21 +18,15 @@ public class Right {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
+    private long userId;
+
+    // @ManyToOne
+    @Transient
     private User user;
 
-    @ManyToOne
+    private long roleId;
+
+    // @ManyToOne
+    @Transient
     private UserRole role;
-
-    @JsonProperty
-    public User getUser() {
-        return user;
-    }
-
-    @JsonProperty
-    public UserRole getRole() {
-        return role;
-    }
-
-
 }
